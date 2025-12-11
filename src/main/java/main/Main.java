@@ -286,7 +286,7 @@ class Main{
     static void statementGeneratorProcess(){
       menu.printTitle("GENERATE ACCOUNT STATEMENT");
       Account  account = getAccountPrompt();
-      Transaction[] transactions = transactionManager.getTransactionsByAccount(account.getAccountNumber());
+      List<Transaction> transactions = transactionManager.getTransactionsByAccount(account.getAccountNumber());
       StatementGenerator.generate(account, transactions);
     }
 }

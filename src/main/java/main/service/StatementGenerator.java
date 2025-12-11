@@ -4,10 +4,14 @@ import main.models.Account;
 import main.models.Transaction;
 import main.models.TransactionType;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
+
 
 public class StatementGenerator {
 
-  public static void generate(Account account, Transaction[] transactions){
+  public static void generate(Account account, List<Transaction> transactions){
     System.out.println();
     printAccountDetail(account);
     System.out.println();
@@ -22,33 +26,35 @@ public class StatementGenerator {
 
   }
 
-  private static void printTransactions(Transaction[] transactions){
+  private static void printTransactions(List<Transaction> transactions){
+//    transactions.sort((t1, t2) -> t1.getTimestampAsLocalDateTime().isAfter(t2.getTimestampAsLocalDateTime()) ? 1 : -1);
+    List<Transaction> transactionSorted = transactions.stream()
+            .sorted((t1, t2) ->
+                            t1.getTimestampAsLocalDateTime().isEqual(t2.getTimestampAsLocalDateTime()) ? 0
+                            : t1.getTimestampAsLocalDateTime().isAfter(t2.getTimestampAsLocalDateTime()) ? 1:-1
+                    )
+            .toList();
     double change = 0;
-    boolean found = false;
-      for(int i =0 ; i< transactions.length; i++){
-        if (transactions[i] == null)
-          break;
-        if (!found){
-          System.out.println("Transactions: ");
-          System.out.println("_".repeat(30));
+    if (transactions.isEmpty()){
+      System.out.println("_".repeat(30));
+      System.out.println("No transactions found");
+      return;
+    }
+    System.out.println("Transactions: ");
+    System.out.println("_".repeat(30));
+      for(Transaction transaction: transactionSorted){
 
-          found = true;
-        }
-        boolean isDeposit = transactions[i].getType().equals(TransactionType.DEPOSIT);
+        boolean isDeposit = transaction.getType().equals(TransactionType.DEPOSIT);
         String sign = isDeposit ? "+$" : "-$";
-        System.out.print(transactions[i].getTransactionId() + " | ");
-        System.out.print(transactions[i].getType() + " | ");
-        System.out.print(sign + String.format("%.2f", transactions[i].getAmount()) + " | ");
-        System.out.printf("$%.2f%n",transactions[i].getBalanceAfter());
-        if (transactions[i].getType().equals(TransactionType.DEPOSIT)){
-          change+=transactions[i].getAmount();
+        System.out.print(transaction.getTransactionId() + " | ");
+        System.out.print(transaction.getType() + " | ");
+        System.out.print(sign + String.format("%.2f", transaction.getAmount()) + " | ");
+        System.out.printf("$%.2f%n",transaction.getBalanceAfter());
+        if (transaction.getType().equals(TransactionType.DEPOSIT)){
+          change+=transaction.getAmount();
         }else{
-          change-=transactions[i].getAmount();
+          change-=transaction.getAmount();
         }
-      }
-      if(!found){
-        System.out.println("_".repeat(30));
-        System.out.println("No transactions found");
       }
     System.out.println("_".repeat(30));
     System.out.printf("Net Change: $%.2f\n" , change);

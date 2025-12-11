@@ -64,4 +64,9 @@ public class Transaction{
             return "TXN"+count;
         return "TXN"+ "0".repeat(3 - count.length()) + count ;
     }
+
+    public LocalDateTime getTimestampAsLocalDateTime(){
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a");
+      return LocalDateTime.parse(timestamp, formatter);
+    }
 }
