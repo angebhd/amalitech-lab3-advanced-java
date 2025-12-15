@@ -47,5 +47,9 @@ public class AccountManager {
       return this.accounts.stream().mapToDouble(Account::getBalance).sum();
     }
 
+    List<Account> getAccounts(){
+      return this.accounts;
+    }
+
 }
 

@@ -15,6 +15,13 @@ public abstract class Account {
         this.balance = balance;
         this.status = status;
     }
+  public Account(String id, Customer customer, double balance, String status) {
+    this.accountNumber = id ;
+    this.customer = customer;
+    this.balance = balance;
+    this.status = status;
+    accountCounter++;
+  }
 
     private String accountNumber;
     private Customer customer;

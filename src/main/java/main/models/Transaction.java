@@ -16,6 +16,14 @@ public class Transaction{
         this.balanceAfter = balanceAfter;
         this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a"));
     }
+  public Transaction(String id, String accountNumber, TransactionType type, double amount, double balanceAfter, String timestamp) {
+    this.transactionId = id; transactionCounter++;
+    this.accountNumber = accountNumber;
+    this.type = type;
+    this.amount = amount;
+    this.balanceAfter = balanceAfter;
+    this.timestamp = timestamp;
+  }
 
     static  int transactionCounter = 0;
     private final String transactionId;

@@ -8,13 +8,14 @@ public class Menu {
         System.out.println("||   BANK ACCOUNT MANAGEMENT - MAIN MENU  ||");
         System.out.println("||                                        ||");
         System.out.println("============================================");
-    System.out.println("Main Menu");
-    System.out.println("---------");
-      System.out.println("1. Manage Accounts");
+        System.out.println("Main Menu");
+        System.out.println("---------");
+        System.out.println("1. Manage Accounts");
         System.out.println("2. Perform Transactions");
         System.out.println("3. Generate Account Statements");
-        System.out.println("4. Run Tests");
-        System.out.println("5. Exit");
+        System.out.println("4. Save / Load Data");
+        System.out.println("5. Run Concurrent Simulation");
+        System.out.println("6. Exit");
         System.out.println();
         System.out.print("Enter you choice: ");
 	}

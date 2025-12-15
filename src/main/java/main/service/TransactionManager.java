@@ -81,4 +81,5 @@ public class TransactionManager {
         System.out.println("Net change: $" + (totalDeposit-totalWithdrawal));
     }
 
+    List<Transaction> getTransactions(){return this.transactions;}
 }

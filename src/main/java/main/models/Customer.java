@@ -1,6 +1,14 @@
 package main.models;
 
 public abstract class Customer {
+  public Customer( String id, String name, int age, String address, String contact) {
+    this.customerId = id;
+    this.address = address;
+    this.contact = contact;
+    this.age = age;
+    this.name = name;
+    customerCounter++;
+  }
     public Customer(String name, int age, String address, String contact) {
         this.customerId = generateId();
         this.address = address;
