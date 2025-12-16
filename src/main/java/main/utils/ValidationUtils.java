@@ -3,9 +3,9 @@ package main.utils;
 import main.models.exceptions.InvalidAmountException;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ValidationUtils {
-
 
     public int intInput(Scanner scanner, int max) {
         int input;
@@ -50,4 +50,24 @@ public class ValidationUtils {
         }
     }
 
+
+  public String validatePhoneNumber(Scanner scanner) {
+    Pattern phoneNumberPattern = Pattern.compile("^\\+\\d+\\s\\d{9}$");
+    String input = scanner.nextLine().trim();
+    if (phoneNumberPattern.matcher(input).matches()) {
+      return input;
+    }
+    System.out.print("Please enter a valid phone number, eg: +250 790123456: ");
+    return validatePhoneNumber(scanner);
+  }
+
+  public String validateAccountNumber(Scanner scanner) {
+    Pattern accounNumberPattern = Pattern.compile("^ACC\\d{3}$");
+    String input = scanner.nextLine().trim().toUpperCase();
+    if (accounNumberPattern.matcher(input).matches()) {
+      return input;
+    }
+    System.out.print("Please enter a valid account number: ");
+    return validatePhoneNumber(scanner);
+  }
 }

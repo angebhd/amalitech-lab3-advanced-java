@@ -28,10 +28,9 @@ class Main{
   static AccountManager accountManager = new AccountManager();
   static ValidationUtils validationUtils = new ValidationUtils();
   static FilePersistenceService filePersistenceService = new FilePersistenceService();
-  static boolean areDataLoaded = false;
-
 
   public static void main(String[] args) {
+    loadData();
     try{
       Scanner scanner = new Scanner(System.in);
       boolean exitApp = false ;
@@ -55,13 +54,8 @@ class Main{
             cleanScannerBuffer(scanner);
             break;
           case 4:
-            if (!areDataLoaded){
-              filePersistenceService.load(accountManager, transactionManager);
-              areDataLoaded = true;
-              System.out.println("Data loaded successfully !");
-            }else{
-              filePersistenceService.save(accountManager, transactionManager);
-            System.out.println("Data saved !");}
+            filePersistenceService.save(accountManager, transactionManager);
+            System.out.println("Data saved !");
             cleanScannerBuffer(scanner);
             break;
           case 5:
@@ -90,7 +84,7 @@ class Main{
     System.out.println();
     Account newAccount = createAccountPrompt(newCustomer);
 
-    /// save accounts & Customer somewhere, then display sucess message
+    /// save accounts & Customer somewhere, then display success message
     accountManager.addAccount(newAccount);
     viewAccountCreatedDetails(newAccount);
   }
@@ -118,9 +112,8 @@ class Main{
   static void viewTransactionHistory(){
     menu.printTitle("VIEW TRANSACTION HISTORY");
     System.out.println();
-    System.out.print("Enter ccount number: ");
-    String accountNo = scanner.next().trim().toUpperCase();
-    scanner.reset();
+    System.out.print("Enter count number: ");
+    String accountNo = validationUtils.validateAccountNumber(scanner);
     try{
       Account account = accountManager.findAccount(accountNo);
       displayAccount(account);
@@ -137,10 +130,10 @@ class Main{
     String name = scanner.nextLine().trim();
     System.out.print("Enter customer age: ");
     int age = validationUtils.intInput(scanner, 120);
-    System.out.print("Enter customer contact: ");
-    String contact = scanner.next().trim();
+    System.out.print("Enter customer contact (Phone number): ");
+    String contact = validationUtils.validatePhoneNumber(scanner);
     System.out.print("Enter customer address: ");
-    String address = scanner.next().trim();
+    String address = scanner.nextLine().trim();
 
     System.out.println();
     System.out.println("Customer Type: ");
@@ -178,7 +171,7 @@ class Main{
   }
   static Account getAccountPrompt(){
     System.out.print("Enter Account number: ");
-    String accountNo = scanner.nextLine().trim().toUpperCase();
+    String accountNo = validationUtils.validateAccountNumber(scanner);
     try {
       return accountManager.findAccount(accountNo);
     } catch (AccountNotFoundException e){
@@ -291,5 +284,15 @@ class Main{
     Account  account = getAccountPrompt();
     List<Transaction> transactions = transactionManager.getTransactionsByAccount(account.getAccountNumber());
     StatementGenerator.generate(account, transactions);
+  }
+
+  static void loadData(){
+    try{
+      filePersistenceService.load(accountManager, transactionManager);
+      System.out.println("Data loaded sucessfully!");
+      System.out.println("||||||||||||||||||||||||");
+    } catch (Exception e) {
+      System.out.println("Failed to load data...");
+    }
   }
 }
