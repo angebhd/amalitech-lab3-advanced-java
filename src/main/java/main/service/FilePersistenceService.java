@@ -207,7 +207,7 @@ public class FilePersistenceService {
   }
 
   public void save(AccountManager accountManager, TransactionManager transactionManager) {
-    saveAccounts(accountManager.getAccounts());
+    saveAccounts(accountManager.getAccounts().values().stream().toList());
     saveTransactions(transactionManager.getTransactions());
   }
   public void load(AccountManager accountManager, TransactionManager transactionManager) {
