@@ -58,7 +58,6 @@ class Main{
             break;
           case 4:
             filePersistenceService.save(accountManager, transactionManager);
-            System.out.println("Data saved !");
             cleanScannerBuffer(scanner);
             break;
           case 5:
@@ -295,6 +294,7 @@ class Main{
   static void loadData(){
     try{
       filePersistenceService.load(accountManager, transactionManager);
+      System.out.println("||||||||||||||||||||||||");
       System.out.println("Data loaded sucessfully!");
       System.out.println("||||||||||||||||||||||||");
     } catch (Exception e) {

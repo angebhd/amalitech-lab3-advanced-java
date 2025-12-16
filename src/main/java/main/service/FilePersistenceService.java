@@ -10,13 +10,14 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class FilePersistenceService {
-  private final Path DATA_DIRECTORY_PATH = Paths.get("data");
   private final Path CUSTOMER_FILE_PATH = Paths.get("data/customers.txt");
   private final Path ACCOUNTS_FILE_PATH = Paths.get("data/accounts.txt");
   private final Path TRANSACTIONS_FILE_PATH = Paths.get("data/transactions.txt");
 
+
   public FilePersistenceService() {
     try {
+      Path DATA_DIRECTORY_PATH = Paths.get("data");
       if (!DATA_DIRECTORY_PATH.toFile().exists()) {
         Files.createDirectory(DATA_DIRECTORY_PATH);
       }
@@ -213,5 +214,7 @@ public class FilePersistenceService {
   public void load(AccountManager accountManager, TransactionManager transactionManager) {
     loadAccounts().forEach(accountManager::addAccount);
     loadTransactions().forEach(transactionManager::addTransaction);
+    System.out.println("Data saved !");
+
   }
 }

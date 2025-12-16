@@ -1,112 +1,112 @@
-# Java Clean Code Lab - Bank Account Management
-A clean, well-tested bank account management CLI application built with Java and Maven
+# Advanced Java Lab - Bank Account Management
+
+A clean, well-tested bank account management CLI application built with Java and Maven.
 
 **By Ange Buhendwa**
 
-
 ## Overview
-A console-based bank account management system that allows users to create accounts, manage transactions, and view account details. The application supports different customer types (Regular and Premium) and account types (Savings and Checking) with specific features and benefits.
+A console-based bank account management system that allows users to create accounts, manage transactions, and view account details. The application supports different customer types (Regular and Premium) and account types (Savings and Checking) with specific features and benefits. It also demonstrates advanced concepts like concurrency handling and file-based persistence.
 
 ## Features
-- **Account Management**: Create and view bank accounts
-- **Customer Types**: 
-  - Regular Customer: Standard banking features
-  - Premium Customer: Waived monthly fees on checking accounts
+- **Account Management**: Create, view, and list bank accounts.
+- **Customer Types**:
+  - **Regular Customer**: Standard banking features.
+  - **Premium Customer**: Waived monthly fees on checking accounts.
 - **Account Types**:
-  - Savings Account: 3.5% interest rate, $500 minimum balance
-  - Checking Account: $1,000 overdraft limit, $10 monthly fee (waived for premium customers)
-- **Transaction Processing**: Deposit and withdrawal operations
-- **Transaction History**: View complete transaction records by account
-- **Auto-generated IDs**: Automatic generation of account, customer, and transaction IDs
-- **Custom Exception Handling**: Robust input validation and error management
-- **Unit Testing**: Comprehensive test coverage with JUnit 5
+  - **Savings Account**: Earns 3.5% interest, requires $500 minimum balance.
+  - **Checking Account**: $1,000 overdraft limit, $10 monthly fee (waived for Premium customers).
+- **Transaction Processing**: Robust deposit and withdrawal operations.
+- **Transaction History**: View complete transaction records by account.
+- **Data Persistence**: Save and load application state (Customers, Accounts, Transactions) to text files.
+- **Concurrency**: Simulation of concurrent transactions to demonstrate thread safety.
+- **Code Quality**: SOLID principles, custom exceptions, and comprehensive unit testing.
 
 ## Project Structure
+
 ```
+├── data/                   # Data storage for persistence (generated on run)
 ├── docs/
-│   └── git-workflow.md
+│   └── git-workflow.md     # Git workflow documentation
 ├── src/
 │   ├── main/java/main/
-│   │   ├── models/
-│   │   │   ├── exceptions/
-│   │   │   │   ├── AccountNotFoundException.java
-│   │   │   │   ├── InsufficientAmountException.java
-│   │   │   │   ├── InvalidAmountException.java
-│   │   │   │   └── OverdraftExceededException.java
-│   │   │   ├── Account.java
-│   │   │   ├── CheckingAccount.java
-│   │   │   ├── Customer.java
-│   │   │   ├── Helper.java
-│   │   │   ├── Menu.java
-│   │   │   ├── PremiumCustomer.java
-│   │   │   ├── RegularCustomer.java
-│   │   │   ├── SavingsAccount.java
-│   │   │   ├── Transactable.java
-│   │   │   ├── Transaction.java
-│   │   │   └── TransactionType.java
-│   │   ├── service/
-│   │   │   ├── AccountManager.java
-│   │   │   ├── StatementGenerator.java
-│   │   │   └── TransactionManager.java
-│   │   ├── utils/
-│   │   │   └── ValidationUtils.java
-│   │   └── Main.java
-│   └── test/java/
-│       ├── AccountTest.java
-│       ├── ExceptionTest.java
-│       └── TransactionManagerTest.java
-├── pom.xml
+│   │   ├── models/         # Core domain entities (Account, Customer, Transaction)
+│   │   │   └── exceptions/ # Custom exceptions
+│   │   ├── service/        # Business logic & services
+│   │   │   ├── AccountManager.java         # Manages account collection
+│   │   │   ├── TransactionManager.java     # Manages transaction history
+│   │   │   ├── FilePersistenceService.java # File I/O for saving/loading data
+│   │   │   └── StatementGenerator.java     # Generates account statements
+│   │   ├── utils/          # Utility helper classes
+│   │   │   ├── ValidationUtils.java        # Input validation
+│   │   │   └── ConcurrencyUtils.java       # Threading support
+│   │   └── Main.java       # Application entry point & Menu loop
+│   └── test/java/          # JUnit 5 test cases
+├── pom.xml                 # Maven project configuration
 └── README.md
 ```
 
-## Project Setup
-**Requirements:**
-- JDK version 21 or higher
-- Maven 3.6+ (for dependency management)
+## Prerequisites
+Before running this project, ensure you have the following installed:
+- **Java JDK 21** or higher
+- **Maven 3.6+**
 
-**Running the project**: 
+## Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/angebhd/amalitech-lab-java-basics-bank-account-management.git
+   cd amalitech-lab-java-basics-bank-account-management
+   ```
+
+2. **Clean and Compile**
+   ```bash
+   mvn clean compile
+   ```
+
+## Running the Application
+
+You can run the application directly using Maven:
 
 ```bash
-# Clone and access the repository
-git clone https://github.com/angebhd/amalitech-lab-java-basics-bank-account-management.git
-cd amalitech-lab-java-basics-bank-account-management
+mvn exec:java -Dexec.mainClass="main.Main"
+```
 
-# Compile and run with Maven
-mvn compile exec:java -Dexec.mainClass="main.Main"
+Or manually compile and run:
 
-# Or compile and run manually
+```bash
 mvn compile
 java -cp target/classes main.Main
 ```
 
+## Usage Guide
+
+Upon starting the application, you will be presented with the **Main Menu**:
+
+1. **Manage Accounts**:
+    - **Create Account**: Register a new customer and open a Savings or Checking account.
+    - **View Account**: List all accounts with their current status and balance.
+    - **View Transactions History**: See history for a specific account.
+2. **Perform Transactions**:
+    - Deposit or Withdraw funds from an existing account.
+3. **Generate Account Statements**:
+    - Generate a simple statement of transactions for an account.
+4. **Save Data**:
+    - Persist all current Customers, Accounts, and Transactions to the `data/` directory.
+    - **Note**: Data is automatically loaded from this directory when the application starts.
+5. **Run Concurrent Simulation**:
+    - Runs a multi-threaded simulation (1 deposit, 2 withdrawals) on account `ACC001` to demonstrate thread safety and race condition handling.
+6. **Exit**: Closes the application.
+
+## Troubleshooting
+
+- **"AccountNotFoundException"**: Ensure you have created an account before trying to access it. Note that account numbers are usually auto-generated or specified during creation.
+- **Concurrency Simulation Fails**: The simulation expects an account with ID `ACC001` to exist. Please create this account if it doesn't exist, or ensure data is loaded correctly.
+- **Persistence Issues**: Check that the `data/` directory allows write permissions.
+
 ## Testing
-**Run unit tests:**
+
+Run the automated JUnit tests to ensure system integrity:
+
 ```bash
-# Run all tests
 mvn test
 ```
-
-## Git Workflow
-For navigating between project branches and using cherry-pick commands, see [Git Workflow Guide](docs/git-workflow.md).
-
-## Usage
-The application provides a menu-driven interface with the following options:
-
-1. **Create Account**: Set up new customer and account with initial deposit
-2. **View Accounts**: Display all accounts with balances and details
-3. **Process Transaction**: Perform deposits or withdrawals
-4. **View Transaction History**: Review transaction records for specific accounts
-5. **Exit**: Close the application
-
-## Code Quality & Architecture
-- **SOLID Principles**: Clean architecture with proper separation of concerns
-- **DRY Principle**: Eliminated code duplication through proper abstraction
-- **Clean Code**: Meaningful naming conventions and readable code structure
-- **Method Best Practices**: Methods under 25 lines, maximum 3 parameters
-- **Custom Exceptions**: Robust error handling and input validation
-- **Unit Testing**: Comprehensive test coverage with JUnit 5
-
-## Account Features
-- **Savings Account**: Earns 3.5% interest, requires $500 minimum balance
-- **Checking Account**: Allows overdraft up to $1,000, $10 monthly fee (waived for premium customers with sufficient balance)
-- **Premium Customer Benefits**: Monthly fee waiver on checking accounts
