@@ -14,12 +14,16 @@ public class ConcurrencyUtils implements Runnable {
   private final Account account;
   private final double amount;
   private final double balanceAfter;
+  private  final String name;
+  static int counter = 0;
   public ConcurrencyUtils(TransactionManager transactionManager, Account account, double amount, TransactionType type, double balanceAfter) {
     this.transactionManager = transactionManager;
     this.type = type;
     this.account = account;
     this.amount = amount;
     this.balanceAfter = balanceAfter;
+    this.name = "Thread~" + ++counter;
+
   }
 
   @Override
@@ -28,10 +32,10 @@ public class ConcurrencyUtils implements Runnable {
       this.transactionManager.addTransaction(transaction);
     if (this.type == TransactionType.WITHDRAW) {
       account.withdraw(transaction.getAmount());
-      System.out.println("Withdrawal");
+      System.out.println(this.name +": Withdrawing $" + transaction.getAmount());
     }else {
       account.deposit(transaction.getAmount());
-      System.out.println("Deposit done");
+      System.out.println(this.name +": Depositing $" + transaction.getAmount());
     }
   }
 }

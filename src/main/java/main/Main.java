@@ -21,6 +21,8 @@ import main.utils.ValidationUtils;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 class Main{
   static Scanner scanner = new Scanner(System.in);
@@ -61,7 +63,7 @@ class Main{
             break;
           case 5:
             System.out.println("Running Concurrent Operations");
-            runConcurentAction();
+            runConcurrentAction();
             cleanScannerBuffer(scanner);
             break;
           case 6:
@@ -227,6 +229,8 @@ class Main{
     if (transaction.getType().equals(TransactionType.WITHDRAW)) {
       try{
         account.withdraw(transaction.getAmount());
+        System.out.println("Amount " + transaction.getAmount() + "$ sucessfully withdrawn");
+
       }catch (OverdraftExceededException | InsufficientAmountException e){
         System.out.println("_____________________________________________");
         System.out.println("Transaction failed!!!");
@@ -298,13 +302,22 @@ class Main{
     }
   }
 
-  static void runConcurentAction(){
+  static void runConcurrentAction(){
     Account account = accountManager.findAccount("ACC001");
     Runnable thread1 = new ConcurrencyUtils(transactionManager, account, 500, TransactionType.DEPOSIT, account.getBalance()+500);
     Runnable thread2 = new ConcurrencyUtils(transactionManager, account, 100, TransactionType.WITHDRAW, account.getBalance()-100);
+    Runnable thread3 = new ConcurrencyUtils(transactionManager, account, 200, TransactionType.WITHDRAW, account.getBalance()-100);
 
-    thread1.run();
-    thread2.run();
+    System.out.println("Balance before: "+ account.getBalance());
+
+    try (ExecutorService executorService = Executors.newFixedThreadPool(3)) {
+      executorService.submit(thread1);
+      executorService.submit(thread2);
+      executorService.submit(thread3);
+    }catch (Exception e){
+      System.out.println("Failed to run concurrent operations");
+    }
+    System.out.println("Balance after: "+ account.getBalance());
 
   }
 }

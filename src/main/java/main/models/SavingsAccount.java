@@ -45,7 +45,6 @@ public class SavingsAccount extends Account {
   public synchronized void withdraw(double amount) {
     if (this.getBalance() >= amount + this.minimumBalance) {
       this.setBalance(this.getBalance() - amount);
-      System.out.println("Amount " + amount + "$ sucessfully withdrawn");
       return;
     }
     throw new InsufficientAmountException(amount, this.getBalance());

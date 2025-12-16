@@ -9,7 +9,7 @@ import java.util.List;
 public class TransactionManager {
     private final List<Transaction> transactions = new ArrayList<>();
 
-    public void addTransaction(Transaction transaction){
+    public synchronized void addTransaction(Transaction transaction){
         transactions.add(transaction);
     }
 

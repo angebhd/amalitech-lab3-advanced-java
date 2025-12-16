@@ -12,7 +12,7 @@ public class AccountManager {
   private final Map<String, Account> accounts = new HashMap();
   private final Menu menu = new Menu();
 
-  public synchronized void addAccount(Account acc) {
+  public void addAccount(Account acc) {
     this.accounts.put(acc.getAccountNumber(), acc);
   }
 

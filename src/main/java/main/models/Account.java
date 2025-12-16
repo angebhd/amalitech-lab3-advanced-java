@@ -44,7 +44,6 @@ public abstract class Account {
     public synchronized void withdraw(double amount){
         if(this.balance >= amount){
             this.balance -= amount;
-            System.out.println("Amount " + amount + "$ sucessfully withdrawn");
             return;
         }
         throw new InsufficientAmountException(amount, this.getBalance());
