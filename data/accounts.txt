@@ -1,0 +1,5 @@
+accountNumber=ACC003~accountType=Checking~balance=3000.000000~customerId=CUS003~status=ACTIVE
+accountNumber=ACC004~accountType=Savings~balance=11000.000000~customerId=CUS004~status=ACTIVE
+accountNumber=ACC001~accountType=Checking~balance=1200.000000~customerId=CUS001~status=ACTIVE
+accountNumber=ACC002~accountType=Checking~balance=2000.000000~customerId=CUS002~status=ACTIVE
+accountNumber=ACC005~accountType=Savings~balance=13000.000000~customerId=CUS005~status=ACTIVE

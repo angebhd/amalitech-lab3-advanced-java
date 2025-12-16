@@ -1,0 +1,5 @@
+id=CUS003~type=Premium~age=35~address=AA 31 st 32, City~contact=+3 123 123 123~name=Ernest Manzi
+id=CUS004~type=Premium~age=35~address=AA 41 st 42, City~contact=+4 123 123 123~name=Josh Obama
+id=CUS001~type=Regular~age=35~address=AA 11 st 12, City~contact=+1 123 123 123~name=Ange Buhendwa
+id=CUS002~type=Regular~age=35~address=AA 21 st 22, City~contact=+2 123 123 123~name=Joel Kayembe
+id=CUS005~type=Premium~age=35~address=AA 51 st 52, City~contact=+5 123 123 123~name=Carl Doe

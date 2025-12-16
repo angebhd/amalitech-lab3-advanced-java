@@ -1,0 +1,4 @@
+id=TXN001~accountNumber=ACC005~amount=500.000000~balanceAfter=13000.000000~type=DEPOSIT~timestamp=2025-12-15 16:35 PM
+id=TXN003~accountNumber=ACC001~amount=500.000000~balanceAfter=1500.000000~type=DEPOSIT~timestamp=2025-12-16 16:17 PM
+id=TXN004~accountNumber=ACC001~amount=100.000000~balanceAfter=900.000000~type=WITHDRAW~timestamp=2025-12-16 16:17 PM
+id=TXN002~accountNumber=ACC001~amount=200.000000~balanceAfter=900.000000~type=WITHDRAW~timestamp=2025-12-16 16:17 PM
