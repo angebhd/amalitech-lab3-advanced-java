@@ -68,6 +68,6 @@ public class ValidationUtils {
       return input;
     }
     System.out.print("Please enter a valid account number: ");
-    return validatePhoneNumber(scanner);
+    return validateAccountNumber(scanner);
   }
 }

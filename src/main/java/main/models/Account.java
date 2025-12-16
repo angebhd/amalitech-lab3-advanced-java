@@ -37,11 +37,11 @@ public abstract class Account {
      *
      * @param amount amount to withdraw
      */
-    public void deposit(double amount){
+    public synchronized void deposit(double amount){
         this.balance += amount;
     }
 
-    public void withdraw(double amount){
+    public synchronized void withdraw(double amount){
         if(this.balance >= amount){
             this.balance -= amount;
             System.out.println("Amount " + amount + "$ sucessfully withdrawn");

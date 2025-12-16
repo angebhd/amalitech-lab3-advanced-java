@@ -212,7 +212,6 @@ public class FilePersistenceService {
   }
   public void load(AccountManager accountManager, TransactionManager transactionManager) {
     loadAccounts().forEach(accountManager::addAccount);
-    System.out.println("acc loaded !");
     loadTransactions().forEach(transactionManager::addTransaction);
   }
 }

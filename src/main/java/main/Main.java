@@ -16,6 +16,7 @@ import main.service.FilePersistenceService;
 import main.service.StatementGenerator;
 import main.service.TransactionManager;
 import main.models.TransactionType;
+import main.utils.ConcurrencyUtils;
 import main.utils.ValidationUtils;
 
 import java.util.List;
@@ -59,7 +60,8 @@ class Main{
             cleanScannerBuffer(scanner);
             break;
           case 5:
-            System.out.println("Run Concurrent Operations");
+            System.out.println("Running Concurrent Operations");
+            runConcurentAction();
             cleanScannerBuffer(scanner);
             break;
           case 6:
@@ -294,5 +296,15 @@ class Main{
     } catch (Exception e) {
       System.out.println("Failed to load data...");
     }
+  }
+
+  static void runConcurentAction(){
+    Account account = accountManager.findAccount("ACC001");
+    Runnable thread1 = new ConcurrencyUtils(transactionManager, account, 500, TransactionType.DEPOSIT, account.getBalance()+500);
+    Runnable thread2 = new ConcurrencyUtils(transactionManager, account, 100, TransactionType.WITHDRAW, account.getBalance()-100);
+
+    thread1.run();
+    thread2.run();
+
   }
 }

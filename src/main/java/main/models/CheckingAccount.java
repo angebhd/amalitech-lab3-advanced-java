@@ -47,7 +47,7 @@ public class CheckingAccount extends Account {
   }
 
   @Override
-  public void withdraw(double amount) {
+  public synchronized void withdraw(double amount) {
     if (this.getBalance() + this.overdraftLimit >= amount) {
       this.setBalance(this.getBalance() - amount);
       System.out.println("Amount " + amount + "$ sucessfully withdrawn");
