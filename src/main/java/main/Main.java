@@ -70,6 +70,7 @@ class Main{
         }
       }while (!exitApp);
       scanner.close();
+      filePersistenceService.save(accountManager, transactionManager);
       System.out.println("Thank you for using Bank Account Management System !");
       System.out.println("GoodBye!");
     } catch (Exception e) {
@@ -78,6 +79,11 @@ class Main{
     }
   }
 
+
+  /**
+   * Start the account creation process, gets customer information,
+   * perform and validate the initial deposit and create an account
+   */
   static void createAccountProcess(){
     menu.printTitle("ACCOUNT CREATION");
     System.out.println();
@@ -86,12 +92,15 @@ class Main{
 
     System.out.println();
     Account newAccount = createAccountPrompt(newCustomer);
-
     /// save accounts & Customer somewhere, then display success message
     accountManager.addAccount(newAccount);
     viewAccountCreatedDetails(newAccount);
   }
 
+  /**
+   * Start the process of making a transaction, ask the user to enter the account number,
+   * type of transaction, amount. Then validate every user input, finally perform the transaction
+   */
   static void makeTransactionProcess(){
     menu.printTitle("PROCESS TRANSACTION");
     Account account = getAccountPrompt();
@@ -112,6 +121,9 @@ class Main{
     }
   }
 
+  /**
+   * Displays the transaction history of the account entered by the user
+   */
   static void viewTransactionHistory(){
     menu.printTitle("VIEW TRANSACTION HISTORY");
     System.out.println();
@@ -128,6 +140,13 @@ class Main{
     }
   }
 
+  /**
+   * Start the prompt of creating a new customer <br>
+   * Validate name, customer type (Regular/Premium) , address, phone number, then create the new customer <br>
+   * It is called in createAccountProcess()
+   * @return Customer
+   * @see Main
+   */
   static Customer createCustomerPrompt(){
     System.out.print("Enter customer name: ");
     String name = scanner.nextLine().trim();
@@ -151,6 +170,13 @@ class Main{
       default -> throw new IllegalArgumentException();
     };
   }
+
+  /**
+   * Prompt to create a new account
+   * The user enter the type of account (Saving/Checking), initial deposit, then create the account
+   * @param customer The owner of the account
+   * @return Account
+   */
   static Account createAccountPrompt(Customer customer){
     System.out.println("Account Type: ");
     System.out.println("1. Savings Account (Interest: 3.5%, Min Balance: $500)");
@@ -172,6 +198,11 @@ class Main{
       default -> throw new IllegalArgumentException("Invalid account type choice");
     };
   }
+
+  /**
+   * Get user input and return the account based on the account number
+   * @return Account
+   */
   static Account getAccountPrompt(){
     System.out.print("Enter Account number: ");
     String accountNo = validationUtils.validateAccountNumber(scanner);
@@ -185,6 +216,11 @@ class Main{
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * Display account details
+   * @param account account to display
+   */
   static void displayAccount(Account account){
     System.out.println("Account Details: ");
     System.out.println("\tCustomer: " + account.getCustomer().getName());
@@ -193,6 +229,10 @@ class Main{
     System.out.println();
   }
 
+  /**
+   * Get user input and return the TransactionType chose by the user
+   * @return TransactionType
+   */
   static TransactionType getTransactionTypePrompt(){
     System.out.println("Transaction Type: ");
     System.out.println("1. Deposit");
@@ -207,6 +247,13 @@ class Main{
       default -> throw new IllegalArgumentException("Invalid transaction type");
     };
   }
+
+  /**
+   * Confirm and save transaction
+   * @param transaction transaction to confirm
+   * @param account account on which the transaction is made
+   * @return boolean
+   */
   static boolean confirmTransactionPrompt(Transaction transaction, Account account){
     menu.printTitle("TRANSACTION CONFIRMATION");
     System.out.println("Transaction ID: " + transaction.getTransactionId());
@@ -243,6 +290,11 @@ class Main{
       account.deposit(transaction.getAmount());
     return true;
   }
+
+  /**
+   * Display newly created account details
+   * @param account Account created
+   */
   static void viewAccountCreatedDetails(Account account){
     System.out.println("\nAccount Created Successfully!");
     System.out.println("Account Number: "+ account.getAccountNumber());
@@ -265,12 +317,21 @@ class Main{
     System.out.printf("\nInitial Balance: $%.2f%n", account.getBalance());
     System.out.println("Status: "+ account.getStatus());
   }
+
+  /**
+   * Clean the scanner buffer
+   * @param scanner scanner to clean
+   */
   static void cleanScannerBuffer(Scanner scanner){
     System.out.print("Press enter to continue...");
     scanner.nextLine();
     System.out.println();
   }
 
+  /**
+   * Decides which account management related task to do
+   * @param option Option chosen by the user
+   */
   static void manageAccountMenu(int option){
     switch (option){
       case 1:
@@ -291,6 +352,9 @@ class Main{
     StatementGenerator.generate(account, transactions);
   }
 
+  /**
+   * Call the load() method from FilePersistenceService
+   */
   static void loadData(){
     try{
       filePersistenceService.load(accountManager, transactionManager);
@@ -302,6 +366,10 @@ class Main{
     }
   }
 
+  /**
+   * Simulates concurrent action <br>
+   * Creates 3 thread which are managed by a thread pool (ExecutorService)
+   */
   static void runConcurrentAction(){
     Account account = accountManager.findAccount("ACC001");
     Runnable thread1 = new ConcurrencyUtils(transactionManager, account, 500, TransactionType.DEPOSIT, account.getBalance()+500);

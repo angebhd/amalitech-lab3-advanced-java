@@ -33,9 +33,6 @@ public class Transaction{
     private final double balanceAfter;
     private final String timestamp;
 
-    public void displayTransactionDetails(){
-        System.out.println("Transaction Details \nAccount Number: " + this.accountNumber);
-    }
 
     public String getTimestamp() {
         return timestamp;
@@ -61,9 +58,6 @@ public class Transaction{
         return transactionId;
     }
 
-    public static int getTransactionCounter() {
-        return transactionCounter;
-    }
 
     private String generateId (){
         Transaction.transactionCounter++;
@@ -73,8 +67,4 @@ public class Transaction{
         return "TXN"+ "0".repeat(3 - count.length()) + count ;
     }
 
-    public LocalDateTime getTimestampAsLocalDateTime(){
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a");
-      return LocalDateTime.parse(timestamp, formatter);
-    }
 }

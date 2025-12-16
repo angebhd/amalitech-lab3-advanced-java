@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountManager {
-  private final Map<String, Account> accounts = new HashMap();
+  private final Map<String, Account> accounts = new HashMap<>();
   private final Menu menu = new Menu();
 
   public void addAccount(Account acc) {

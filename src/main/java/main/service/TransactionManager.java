@@ -49,13 +49,12 @@ public class TransactionManager {
      * @return Total deposit amount in an account
      */
     public double calculateTotalDeposits(String accountNumber){
-
       return this.transactions.stream()
               .filter(tr -> tr.getAccountNumber().equalsIgnoreCase(accountNumber) && tr.getType().equals(TransactionType.DEPOSIT))
               .mapToDouble(Transaction::getAmount)
               .sum();
-
     }
+
     /**
      * Calculate the total amount withdrawn in a given account
      * @param accountNumber Account number

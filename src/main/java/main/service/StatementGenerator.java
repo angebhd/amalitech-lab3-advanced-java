@@ -4,10 +4,7 @@ import main.models.Account;
 import main.models.Transaction;
 import main.models.TransactionType;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
-
 
 public class StatementGenerator {
 
@@ -27,12 +24,8 @@ public class StatementGenerator {
   }
 
   private static void printTransactions(List<Transaction> transactions){
-//    transactions.sort((t1, t2) -> t1.getTimestampAsLocalDateTime().isAfter(t2.getTimestampAsLocalDateTime()) ? 1 : -1);
     List<Transaction> transactionSorted = transactions.stream()
-            .sorted((t1, t2) ->
-                            t1.getTimestampAsLocalDateTime().isEqual(t2.getTimestampAsLocalDateTime()) ? 0
-                            : t1.getTimestampAsLocalDateTime().isAfter(t2.getTimestampAsLocalDateTime()) ? 1:-1
-                    )
+            .sorted((t1, t2) -> (int) (t2.getAmount() - t1.getAmount()))
             .toList();
     double change = 0;
     if (transactions.isEmpty()){
@@ -40,7 +33,7 @@ public class StatementGenerator {
       System.out.println("No transactions found");
       return;
     }
-    System.out.println("Transactions: ");
+    System.out.println("Transactions: (Sorted by amounts)");
     System.out.println("_".repeat(30));
       for(Transaction transaction: transactionSorted){
 

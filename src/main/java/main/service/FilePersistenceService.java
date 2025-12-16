@@ -113,6 +113,8 @@ public class FilePersistenceService {
         List<String> data = Arrays.asList(line.split("~"));
         customers.add(buildCustomer(data));
       }
+      System.out.println(customers.size() + " Customers(s) loaded from data/customers.txt file");
+
       return customers;
 
     } catch (IOException e) {
@@ -122,12 +124,14 @@ public class FilePersistenceService {
 
   private List<Account> loadAccounts() {
     List<Account> accounts = new ArrayList<>();
+    List<Customer> customers = loadCustomers();
     try {
       List<String> lines = Files.readAllLines(ACCOUNTS_FILE_PATH);
       for (String line : lines) {
         List<String> data = Arrays.asList(line.split("~"));
-        accounts.add(buildAccount(data));
+        accounts.add(buildAccount(data, customers));
       }
+      System.out.println(accounts.size() + " Account(s) loaded from data/accounts.txt file");
       return accounts;
 
     } catch (IOException e) {
@@ -143,6 +147,8 @@ public class FilePersistenceService {
         List<String> data = Arrays.asList(line.split("~"));
         transactions.add(buildTransaction(data));
       }
+      System.out.println(transactions.size() + " Transactions(s) loaded from data/transactions.txt file");
+
       return transactions;
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -169,8 +175,7 @@ public class FilePersistenceService {
     };
   }
 
-  private Account buildAccount(List<String> data) {
-    List<Customer> customers = loadCustomers();
+  private Account buildAccount(List<String> data, List<Customer> customers) {
     Map<String, String> dataMap = new HashMap<>();
     data.forEach(d -> {
       String[] entries = d.split("=");
@@ -210,11 +215,12 @@ public class FilePersistenceService {
   public void save(AccountManager accountManager, TransactionManager transactionManager) {
     saveAccounts(accountManager.getAccounts().values().stream().toList());
     saveTransactions(transactionManager.getTransactions());
+    System.out.println("Data saved !");
+
   }
   public void load(AccountManager accountManager, TransactionManager transactionManager) {
     loadAccounts().forEach(accountManager::addAccount);
     loadTransactions().forEach(transactionManager::addTransaction);
-    System.out.println("Data saved !");
 
   }
 }
