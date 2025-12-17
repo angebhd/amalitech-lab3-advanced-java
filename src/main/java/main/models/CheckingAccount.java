@@ -1,6 +1,5 @@
 package main.models;
 
-import main.models.exceptions.InsufficientAmountException;
 import main.models.exceptions.OverdraftExceededException;
 
 public class CheckingAccount extends Account {
@@ -53,10 +52,6 @@ public class CheckingAccount extends Account {
       return;
     }
     throw new OverdraftExceededException();
-  }
-
-  public void applyMonthlyFee() {
-    this.setBalance(this.getBalance() - this.monthlyFee);
   }
 
   public double getOverdraftLimit() {

@@ -36,21 +36,6 @@ public class Menu {
     System.out.print("Enter you choice: ");
   }
 
-    public void showViewAccount(Account[] accounts, double bankBalance){
-         printTitle("ACCOUNT LISTING");
-         if(accounts.length == 0){
-             System.out.println("Nothing to show");
-             return;
-         }
-        System.out.println("ACC NO   |   CUSTOMER NAME     |  TYPE   |   BALANCE    |  STATUS   | OTHERS   ");
-         for (Account account: accounts)
-             printViewAccountRow(account);
-
-        System.out.println();
-        System.out.println("Total Accounts: " + accounts.length);
-        System.out.println("Total Bank Balance: " + bankBalance);
-
-    }
 
     public void printTitle(String title){
         System.out.println();

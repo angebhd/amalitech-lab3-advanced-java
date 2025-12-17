@@ -9,8 +9,6 @@ public class PremiumCustomer extends Customer {
     super(id, name, age, address, contact);
   }
 
-  private double minimumBalance = 10000;
-
   @Override
   public void displayCustomerDetail() {
     System.out.println("Premium Account");
@@ -23,14 +21,9 @@ public class PremiumCustomer extends Customer {
   }
 
   public boolean hasWaivedFees(double balance) {
+    double minimumBalance = 10000;
     return balance >= minimumBalance;
   }
 
-  public double getMinimumBalance() {
-    return minimumBalance;
-  }
 
-  public void setMinimumBalance(double minimumBalance) {
-    this.minimumBalance = minimumBalance;
-  }
 }

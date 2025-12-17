@@ -50,10 +50,6 @@ public class SavingsAccount extends Account {
     throw new InsufficientAmountException(amount, this.getBalance());
   }
 
-  public double calculateInterest() {
-    return this.getBalance() + (this.getBalance() * this.interestRate);
-  }
-
   public double getInterestRate() {
     return interestRate;
   }
