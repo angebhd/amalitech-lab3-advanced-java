@@ -7,6 +7,10 @@ import main.service.TransactionManager;
 
 import java.util.UUID;
 
+/**
+ * Implement runnable, allowing to run concurrent transactions
+ * @author Ange Buhendwa
+ */
 public class ConcurrencyUtils implements Runnable {
 
   private final TransactionManager transactionManager;

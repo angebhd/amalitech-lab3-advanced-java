@@ -149,13 +149,13 @@ class Main{
    */
   static Customer createCustomerPrompt(){
     System.out.print("Enter customer name: ");
-    String name = scanner.nextLine().trim();
+    String name = validationUtils.validateString(scanner);
     System.out.print("Enter customer age: ");
     int age = validationUtils.intInput(scanner, 120);
     System.out.print("Enter customer contact (Phone number): ");
     String contact = validationUtils.validatePhoneNumber(scanner);
     System.out.print("Enter customer address: ");
-    String address = scanner.nextLine().trim();
+    String address = validationUtils.validateString(scanner);
 
     System.out.println();
     System.out.println("Customer Type: ");

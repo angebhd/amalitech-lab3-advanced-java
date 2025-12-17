@@ -9,11 +9,20 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
+/**
+ * File persistence service, save and load application data
+ *
+ * @author Ange Buhendwa
+ */
 public class FilePersistenceService {
   private final Path CUSTOMER_FILE_PATH = Paths.get("data/customers.txt");
   private final Path ACCOUNTS_FILE_PATH = Paths.get("data/accounts.txt");
   private final Path TRANSACTIONS_FILE_PATH = Paths.get("data/transactions.txt");
 
+  /**
+   * Constructor of FilePersistenceService <br>
+   * Create necessary files & Folder needed for file persistence if they do not exists
+   */
 
   public FilePersistenceService() {
     try {
@@ -35,7 +44,10 @@ public class FilePersistenceService {
     }
   }
 
-
+  /**
+   * Save accounts to file
+   * @param customers List of transactions to save
+   */
   private void saveCustomers(List<Customer> customers) {
     customers.forEach(customer -> {
       String line = "id=%s~type=%s~age=%d~address=%s~contact=%s~name=%s\n"
@@ -55,6 +67,12 @@ public class FilePersistenceService {
     });
   }
 
+  /**
+   * Save accounts to file <br>
+   * Automatically save customers as well
+   * @param accounts List of transactions to save
+   * @apiNote Overwrite the files, it should always receive the list of all transactions
+   */
   private void saveAccounts(List<Account> accounts) {
     try {
         Files.write(ACCOUNTS_FILE_PATH, "".getBytes());
@@ -80,6 +98,11 @@ public class FilePersistenceService {
     });
   }
 
+  /**
+   * Save transactions to file
+   * @param transactions List of transactions to save
+   * @apiNote Overwrite the files, it should always receive the list of all transactions
+   */
   private void saveTransactions(List<Transaction> transactions) {
     try {
       Files.write(TRANSACTIONS_FILE_PATH, "".getBytes());
@@ -105,7 +128,11 @@ public class FilePersistenceService {
 
   }
 
-  private List<Customer> loadCustomers() {
+  /**
+   * Load transactions from file and return a list of all transaction
+   * @return List<Transaction>
+   */
+  private List<Customer> getCustomers() {
     List<Customer> customers = new ArrayList<>();
     try {
       List<String> lines = Files.readAllLines(CUSTOMER_FILE_PATH);
@@ -122,9 +149,13 @@ public class FilePersistenceService {
     }
   }
 
-  private List<Account> loadAccounts() {
+  /**
+   * Load accounts from file and return a list of all accounts
+   * @return List<Account>
+   */
+  private List<Account> getAccounts() {
     List<Account> accounts = new ArrayList<>();
-    List<Customer> customers = loadCustomers();
+    List<Customer> customers = getCustomers();
     try {
       List<String> lines = Files.readAllLines(ACCOUNTS_FILE_PATH);
       for (String line : lines) {
@@ -139,7 +170,11 @@ public class FilePersistenceService {
     }
   }
 
-  private List<Transaction> loadTransactions() {
+  /**
+   * Load transactions from file and return a list of all transaction
+   * @return List<Transaction>
+   */
+  private List<Transaction> getTransactions() {
     List<Transaction> transactions = new ArrayList<>();
     try {
       List<String> lines = Files.readAllLines(TRANSACTIONS_FILE_PATH);
@@ -154,7 +189,11 @@ public class FilePersistenceService {
       throw new RuntimeException(e);
     }
   }
-
+  /**
+   * Receive a line from the text and build a Customer object from it
+   * @param data Line of a customer record from the text file
+   * @return Customer
+   */
   private Customer buildCustomer(List<String> data) {
     Map<String, String> dataMap = new HashMap<>();
     data.forEach(d -> {
@@ -175,6 +214,12 @@ public class FilePersistenceService {
     };
   }
 
+  /**
+   * Receive a line from the text and build an Account object from it
+   * @param data Line of an account record from the text file
+   * @param customers List of customers, used by the method to find the customer for the Acount
+   * @return Account
+   */
   private Account buildAccount(List<String> data, List<Customer> customers) {
     Map<String, String> dataMap = new HashMap<>();
     data.forEach(d -> {
@@ -195,8 +240,12 @@ public class FilePersistenceService {
     };
   }
 
+  /**
+   * Receive a line from the text and build the Transaction object from it
+   * @param data Line of a transaction from the text file
+   * @return Transaction
+   */
   private Transaction buildTransaction(List<String> data) {
-    Transaction transaction = null;
     Map<String, String> dataMap = new HashMap<>();
     data.forEach(d -> {
       String[] entries = d.split("=");
@@ -212,15 +261,26 @@ public class FilePersistenceService {
     return new Transaction(transactionId, accountNumber, transactionType,amount, balanceAfter, timestamp);
   }
 
+  /**
+   * Save data to files
+   * @param accountManager AccountManager, where the accounts loaded from, to be saved on files (save customers as well)
+   * @param transactionManager  Transaction, where the accounts loaded from,  to be saved on files
+   */
   public void save(AccountManager accountManager, TransactionManager transactionManager) {
     saveAccounts(accountManager.getAccounts().values().stream().toList());
     saveTransactions(transactionManager.getTransactions());
     System.out.println("Data saved !");
 
   }
+
+  /**
+   * Load data from the files
+   * @param accountManager AccountManager, where the accounts loaded from the files will be added (customers also are loaded)
+   * @param transactionManager  Transaction, where the accounts loaded from the files will be added
+   */
   public void load(AccountManager accountManager, TransactionManager transactionManager) {
-    loadAccounts().forEach(accountManager::addAccount);
-    loadTransactions().forEach(transactionManager::addTransaction);
+    getAccounts().forEach(accountManager::addAccount);
+    getTransactions().forEach(transactionManager::addTransaction);
 
   }
 }

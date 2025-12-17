@@ -5,6 +5,10 @@ import main.models.exceptions.InvalidAmountException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * Validation utils class, contains methods to validate user input, for integers, strings, account number, phone number, ...
+ * @author Ange Buhendwa
+ */
 public class ValidationUtils {
 
     public int intInput(Scanner scanner, int max) {
@@ -30,7 +34,6 @@ public class ValidationUtils {
         return doubleInput(scanner,1, "Invalid amount, should be greater than 0 try again...");
     }
 
-    // Validate double input with a minimum value and a custom message
     public double doubleInput(Scanner scanner, double min, String msg) {
         try {
             if (!scanner.hasNextDouble()) {
@@ -68,6 +71,22 @@ public class ValidationUtils {
       return input;
     }
     System.out.print("Please enter a valid account number: ");
+    return validateAccountNumber(scanner);
+  }
+
+  /**
+   * Validate input String, as ~ is a special character used as a separator in files,
+   * and cannot be used in any filed to avoid problems while rebuilding the Objects from files
+   * @param scanner Scanner object
+   * @return String
+   */
+  public String validateString(Scanner scanner) {
+    Pattern accounNumberPattern = Pattern.compile("~");
+    String input = scanner.nextLine().trim().toUpperCase();
+    if (!accounNumberPattern.matcher(input).matches()) {
+      return input;
+    }
+    System.out.print("Invalid input, `~` not allowed ! ");
     return validateAccountNumber(scanner);
   }
 }
